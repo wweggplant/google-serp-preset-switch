@@ -2,7 +2,7 @@
 // @name         Google SEO Toolkit
 // @name:zh-CN   Google SEO 工具箱
 // @namespace    https://github.com/wweggplant/google-serp-preset-switch
-// @version      1.0.0
+// @version      1.0.1
 // @description  All-in-one SEO toolkit for Google SERP: stat enhancement, keyword difficulty (Ahrefs), domain lookup (Namebeta), Trends, allintitle, intitle — plus preset switching.
 // @description:zh-CN  Google SERP 一站式 SEO 工具箱：搜索结果统计增强、关键词难度查询、域名查询、Google Trends、allintitle、intitle，以及地区预设切换。
 // @author       wweggplant
@@ -258,7 +258,7 @@
 
   function buildSwitcher() {
     const wrap = document.createElement('div');
-    wrap.id = 'gm-region-switcher-inline';
+    wrap.id = 'gm-toolkit-bar';
     wrap.style.cssText = [
       'display:inline-flex',
       'align-items:center',
@@ -353,7 +353,7 @@
   let mounted = false;
 
   function mount() {
-    if (document.getElementById('gm-region-switcher-inline')) return;
+    if (document.getElementById('gm-toolkit-bar')) return;
 
     const toolsButton = document.querySelector('#hdtb-tls');
     const toolsWrapper = toolsButton?.parentElement;
