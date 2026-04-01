@@ -35,16 +35,6 @@
     return url.searchParams.get('q') || url.searchParams.get('as_q') || '';
   }
 
-  function readClipboard() {
-    return navigator.clipboard.readText().then(t => t.trim());
-  }
-
-  function getSelectionOrClipboard() {
-    const sel = window.getSelection().toString().trim();
-    if (sel) return Promise.resolve(sel);
-    return readClipboard();
-  }
-
   // ═══════════════════════════════════════════
   //  Feature 1 — SERP Stat Enhancement
   // ═══════════════════════════════════════════
@@ -112,54 +102,45 @@
       label: 'KD',
       title: 'Keyword Difficulty (Ahrefs)',
       action() {
-        readClipboard().then(q => {
-          if (!q) { alert('Clipboard is empty — copy a keyword first.'); return; }
-          window.open('https://ahrefs.com/keyword-difficulty/?country=us&input=' + encodeURIComponent(q), '_blank');
-        }).catch(() => alert('Cannot read clipboard.'));
+        const q = getKeyword();
+        if (!q) { alert('No keyword found in search.'); return; }
+        window.open('https://ahrefs.com/keyword-difficulty/?country=us&input=' + encodeURIComponent(q), '_blank');
       }
     },
     {
       label: 'Domain',
       title: 'Domain lookup (Namebeta)',
       action() {
-        readClipboard().then(q => {
-          q = q.trim();
-          if (!q) { alert('Clipboard is empty — copy a keyword first.'); return; }
-          const domain = q.replace(/\s+/g, '') + '.org';
-          window.open('https://namebeta.com/search/' + encodeURIComponent(domain), '_blank');
-        }).catch(() => alert('Cannot read clipboard.'));
+        const q = getKeyword();
+        if (!q) { alert('No keyword found in search.'); return; }
+        const domain = q.replace(/\s+/g, '') + '.org';
+        window.open('https://namebeta.com/search/' + encodeURIComponent(domain), '_blank');
       }
     },
     {
       label: 'Trends',
       title: 'Google Trends (7 days)',
       action() {
-        getSelectionOrClipboard().then(kw => {
-          const q = kw || 'ai';
-          window.open('https://trends.google.com/trends/explore?date=now 7-d&q=' + encodeURIComponent(q), '_blank');
-        }).catch(() => {
-          window.open('https://trends.google.com/trends/explore?date=now 7-d&q=ai', '_blank');
-        });
+        const q = getKeyword() || 'ai';
+        window.open('https://trends.google.com/trends/explore?date=now 7-d&q=' + encodeURIComponent(q), '_blank');
       }
     },
     {
       label: 'allintitle',
       title: 'Google allintitle search',
       action() {
-        readClipboard().then(q => {
-          if (!q) { alert('Clipboard is empty — copy a keyword first.'); return; }
-          window.open('https://www.google.com/search?q=allintitle:"' + encodeURIComponent(q) + '"', '_blank');
-        }).catch(() => alert('Cannot read clipboard.'));
+        const q = getKeyword();
+        if (!q) { alert('No keyword found in search.'); return; }
+        window.open('https://www.google.com/search?q=allintitle:"' + encodeURIComponent(q) + '"', '_blank');
       }
     },
     {
       label: 'intitle',
       title: 'Google intitle search',
       action() {
-        readClipboard().then(q => {
-          if (!q) { alert('Clipboard is empty — copy a keyword first.'); return; }
-          window.open('https://www.google.com/search?q=intitle:"' + encodeURIComponent(q) + '"', '_blank');
-        }).catch(() => alert('Cannot read clipboard.'));
+        const q = getKeyword();
+        if (!q) { alert('No keyword found in search.'); return; }
+        window.open('https://www.google.com/search?q=intitle:"' + encodeURIComponent(q) + '"', '_blank');
       }
     }
   ];
