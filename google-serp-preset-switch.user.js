@@ -49,7 +49,6 @@
 
   function findPresetIndex(state) {
     return presets.findIndex(p =>
-      (p.params.gl || '') === state.gl &&
       (p.params.cr || '') === state.cr &&
       (p.params.lr || '') === state.lr
     );
