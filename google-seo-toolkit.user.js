@@ -31,20 +31,24 @@
     return url.searchParams.get('q') || url.searchParams.get('as_q') || '';
   }
 
+  // Strip allintitle:/intitle: prefix so buttons don't double-wrap
+  function getRawKeyword() {
+    return getKeyword().replace(/^(allintitle:|intitle:)"?/i, '').replace(/"$/, '');
+  }
+
   // ── Presets ──────────────────────────────
-  const FIXED_HL = 'zh-CN';
   const FORCE_PWS = '0';
 
   const presets = [
-    { label: 'US', sub: 'English', params: { gl: 'us', cr: 'countryUS', lr: 'lang_en' } },
-    { label: 'UK', sub: 'English', params: { gl: 'uk', cr: 'countryUK', lr: 'lang_en' } },
-    { label: 'JP', sub: '日本語', params: { gl: 'jp', cr: 'countryJP', lr: 'lang_ja' } },
-    { label: 'SG', sub: 'English', params: { gl: 'sg', cr: 'countrySG', lr: 'lang_en' } },
-    { label: 'CN', sub: '简体中文', params: { gl: 'cn', cr: 'countryCN', lr: 'lang_zh-CN' } },
-    { label: 'HK', sub: '繁體中文', params: { gl: 'hk', cr: 'countryHK', lr: 'lang_zh-TW' } },
-    { label: 'TW', sub: '繁體中文', params: { gl: 'tw', cr: 'countryTW', lr: 'lang_zh-TW' } },
-    { label: 'DE', sub: 'Deutsch', params: { gl: 'de', cr: 'countryDE', lr: 'lang_de' } },
-    { label: 'FR', sub: 'Français', params: { gl: 'fr', cr: 'countryFR', lr: 'lang_fr' } }
+    { label: 'US', sub: 'English',   params: { gl: 'us', cr: 'countryUS', lr: 'lang_en',    hl: 'en' } },
+    { label: 'UK', sub: 'English',   params: { gl: 'uk', cr: 'countryUK', lr: 'lang_en',    hl: 'en' } },
+    { label: 'JP', sub: '日本語',    params: { gl: 'jp', cr: 'countryJP', lr: 'lang_ja',    hl: 'ja' } },
+    { label: 'SG', sub: 'English',   params: { gl: 'sg', cr: 'countrySG', lr: 'lang_en',    hl: 'en' } },
+    { label: 'CN', sub: '简体中文',  params: { gl: 'cn', cr: 'countryCN', lr: 'lang_zh-CN', hl: 'zh-CN' } },
+    { label: 'HK', sub: '繁體中文',  params: { gl: 'hk', cr: 'countryHK', lr: 'lang_zh-TW', hl: 'zh-TW' } },
+    { label: 'TW', sub: '繁體中文',  params: { gl: 'tw', cr: 'countryTW', lr: 'lang_zh-TW', hl: 'zh-TW' } },
+    { label: 'DE', sub: 'Deutsch',   params: { gl: 'de', cr: 'countryDE', lr: 'lang_de',    hl: 'de' } },
+    { label: 'FR', sub: 'Français',  params: { gl: 'fr', cr: 'countryFR', lr: 'lang_fr',    hl: 'fr' } }
   ];
 
   // ── SEO Tools ────────────────────────────
@@ -79,7 +83,7 @@
       label: 'allintitle',
       title: 'Google allintitle search',
       action() {
-        const q = getKeyword();
+        const q = getRawKeyword();
         if (!q) return;
         window.open('https://www.google.com/search?q=allintitle:"' + encodeURIComponent(q) + '"', '_blank');
       }
@@ -88,7 +92,7 @@
       label: 'intitle',
       title: 'Google intitle search',
       action() {
-        const q = getKeyword();
+        const q = getRawKeyword();
         if (!q) return;
         window.open('https://www.google.com/search?q=intitle:"' + encodeURIComponent(q) + '"', '_blank');
       }
@@ -320,7 +324,7 @@
     next.searchParams.set('gl', p.params.gl);
     next.searchParams.set('cr', p.params.cr);
     next.searchParams.set('lr', p.params.lr);
-    next.searchParams.set('hl', FIXED_HL);
+    next.searchParams.set('hl', p.params.hl);
     next.searchParams.set('pws', FORCE_PWS);
     location.href = next.toString();
   }

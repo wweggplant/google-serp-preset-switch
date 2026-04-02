@@ -21,20 +21,19 @@
 (function () {
   'use strict';
 
-  const FIXED_HL = 'zh-CN';
   const FORCE_PWS = '0';
   const PLACEHOLDER_LABEL = 'SERP Preset';
 
   const presets = [
-    { label: 'US · English', params: { gl: 'us', cr: 'countryUS', lr: 'lang_en' } },
-    { label: 'UK · English', params: { gl: 'uk', cr: 'countryUK', lr: 'lang_en' } },
-    { label: 'JP · Japanese', params: { gl: 'jp', cr: 'countryJP', lr: 'lang_ja' } },
-    { label: 'SG · English', params: { gl: 'sg', cr: 'countrySG', lr: 'lang_en' } },
-    { label: 'CN · 中文简体', params: { gl: 'cn', cr: 'countryCN', lr: 'lang_zh-CN' } },
-    { label: 'HK · 中文香港', params: { gl: 'hk', cr: 'countryHK', lr: 'lang_zh-TW' } },
-    { label: 'TW · 中文繁體', params: { gl: 'tw', cr: 'countryTW', lr: 'lang_zh-TW' } },
-    { label: 'DE · Deutsch', params: { gl: 'de', cr: 'countryDE', lr: 'lang_de' } },
-    { label: 'FR · Français', params: { gl: 'fr', cr: 'countryFR', lr: 'lang_fr' } }
+    { label: 'US · English',  params: { gl: 'us', cr: 'countryUS', lr: 'lang_en',    hl: 'en' } },
+    { label: 'UK · English',  params: { gl: 'uk', cr: 'countryUK', lr: 'lang_en',    hl: 'en' } },
+    { label: 'JP · Japanese', params: { gl: 'jp', cr: 'countryJP', lr: 'lang_ja',    hl: 'ja' } },
+    { label: 'SG · English',  params: { gl: 'sg', cr: 'countrySG', lr: 'lang_en',    hl: 'en' } },
+    { label: 'CN · 中文简体', params: { gl: 'cn', cr: 'countryCN', lr: 'lang_zh-CN', hl: 'zh-CN' } },
+    { label: 'HK · 中文香港', params: { gl: 'hk', cr: 'countryHK', lr: 'lang_zh-TW', hl: 'zh-TW' } },
+    { label: 'TW · 中文繁體', params: { gl: 'tw', cr: 'countryTW', lr: 'lang_zh-TW', hl: 'zh-TW' } },
+    { label: 'DE · Deutsch',  params: { gl: 'de', cr: 'countryDE', lr: 'lang_de',    hl: 'de' } },
+    { label: 'FR · Français', params: { gl: 'fr', cr: 'countryFR', lr: 'lang_fr',    hl: 'fr' } }
   ];
 
   function getCurrentState(url) {
@@ -162,7 +161,7 @@
       next.searchParams.set('gl', preset.params.gl);
       next.searchParams.set('cr', preset.params.cr);
       next.searchParams.set('lr', preset.params.lr);
-      next.searchParams.set('hl', FIXED_HL);
+      next.searchParams.set('hl', preset.params.hl);
       next.searchParams.set('pws', FORCE_PWS);
 
       location.href = next.toString();
