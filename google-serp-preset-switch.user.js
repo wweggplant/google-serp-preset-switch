@@ -32,8 +32,9 @@
     { label: 'CN · 中文简体', params: { gl: 'cn', cr: 'countryCN', lr: 'lang_zh-CN', hl: 'zh-CN' } },
     { label: 'HK · 中文香港', params: { gl: 'hk', cr: 'countryHK', lr: 'lang_zh-TW', hl: 'zh-TW' } },
     { label: 'TW · 中文繁體', params: { gl: 'tw', cr: 'countryTW', lr: 'lang_zh-TW', hl: 'zh-TW' } },
-    { label: 'DE · Deutsch',  params: { gl: 'de', cr: 'countryDE', lr: 'lang_de',    hl: 'de' } },
-    { label: 'FR · Français', params: { gl: 'fr', cr: 'countryFR', lr: 'lang_fr',    hl: 'fr' } }
+    { label: 'DE · Deutsch',   params: { gl: 'de', cr: 'countryDE', lr: 'lang_de',    hl: 'de' } },
+    { label: 'FR · Français',  params: { gl: 'fr', cr: 'countryFR', lr: 'lang_fr',    hl: 'fr' } },
+    { label: 'RU · Русский',   params: { gl: 'ru', cr: 'countryRU', lr: 'lang_ru',    hl: 'ru' } }
   ];
 
   function getCurrentState(url) {

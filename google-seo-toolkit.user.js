@@ -48,7 +48,8 @@
     { label: 'HK', sub: '繁體中文',  params: { gl: 'hk', cr: 'countryHK', lr: 'lang_zh-TW', hl: 'zh-TW' } },
     { label: 'TW', sub: '繁體中文',  params: { gl: 'tw', cr: 'countryTW', lr: 'lang_zh-TW', hl: 'zh-TW' } },
     { label: 'DE', sub: 'Deutsch',   params: { gl: 'de', cr: 'countryDE', lr: 'lang_de',    hl: 'de' } },
-    { label: 'FR', sub: 'Français',  params: { gl: 'fr', cr: 'countryFR', lr: 'lang_fr',    hl: 'fr' } }
+    { label: 'FR', sub: 'Français',  params: { gl: 'fr', cr: 'countryFR', lr: 'lang_fr',    hl: 'fr' } },
+    { label: 'RU', sub: 'Русский',   params: { gl: 'ru', cr: 'countryRU', lr: 'lang_ru',    hl: 'ru' } }
   ];
 
   // ── SEO Tools ────────────────────────────
