@@ -31,9 +31,24 @@
     return url.searchParams.get('q') || url.searchParams.get('as_q') || '';
   }
 
-  // Strip allintitle:/intitle: prefix so buttons don't double-wrap
-  function getRawKeyword() {
-    return getKeyword().replace(/^(allintitle:|intitle:)"?/i, '').replace(/"$/, '');
+  function stripSearchSyntax(keyword) {
+    return (keyword || '')
+      .trim()
+      .replace(/[“”]/g, '"')
+      .replace(/[‘’]/g, "'")
+      .replace(/\b(?:allintitle|intitle|allintext|intext|allinanchor|inanchor|allinurl|inurl):\s*/gi, ' ')
+      .replace(/\b(?:site|filetype|ext|cache|related|link|source|define|before|after):(?:"[^"]*"|'[^']*'|\S+)/gi, ' ')
+      .replace(/\bAROUND\(\d+\)/gi, ' ')
+      .replace(/[()+*~]/g, ' ')
+      .replace(/(^|\s)-(?=\S)/g, ' ')
+      .replace(/\s+(?:AND|OR)\s+/gi, ' ')
+      .replace(/["']/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function getCleanKeyword() {
+    return stripSearchSyntax(getKeyword());
   }
 
   // ── Presets ──────────────────────────────
@@ -58,7 +73,7 @@
       label: 'KD',
       title: 'Keyword Difficulty — Ahrefs',
       action() {
-        const q = getKeyword();
+        const q = getCleanKeyword();
         if (!q) return;
         window.open('https://ahrefs.com/keyword-difficulty/?country=us&input=' + encodeURIComponent(q), '_blank');
       }
@@ -67,7 +82,7 @@
       label: 'Domain',
       title: 'Domain lookup — Namebeta (.org)',
       action() {
-        const q = getKeyword();
+        const q = getCleanKeyword();
         if (!q) return;
         window.open('https://namebeta.com/search/' + encodeURIComponent(q.replace(/\s+/g, '') + '.org'), '_blank');
       }
@@ -76,7 +91,7 @@
       label: 'Trends',
       title: 'Google Trends — 7 days',
       action() {
-        const q = getKeyword() || 'ai';
+        const q = getCleanKeyword() || 'ai';
         window.open('https://trends.google.com/trends/explore?date=now 7-d&q=' + encodeURIComponent(q), '_blank');
       }
     },
@@ -84,7 +99,7 @@
       label: 'allintitle',
       title: 'Google allintitle search',
       action() {
-        const q = getRawKeyword();
+        const q = getCleanKeyword();
         if (!q) return;
         window.open('https://www.google.com/search?q=allintitle:"' + encodeURIComponent(q) + '"', '_blank');
       }
@@ -93,7 +108,7 @@
       label: 'intitle',
       title: 'Google intitle search',
       action() {
-        const q = getRawKeyword();
+        const q = getCleanKeyword();
         if (!q) return;
         window.open('https://www.google.com/search?q=intitle:"' + encodeURIComponent(q) + '"', '_blank');
       }
@@ -120,6 +135,15 @@
 
   function hasAnyParams(state) {
     return Boolean(state.gl || state.cr || state.lr || state.hl || state.pws);
+  }
+
+  function getLanguageOptions() {
+    const seen = new Set();
+    return presets.filter(p => {
+      if (seen.has(p.sub)) return false;
+      seen.add(p.sub);
+      return true;
+    }).map(p => p.sub);
   }
 
   // ── Styles ───────────────────────────────
@@ -242,35 +266,71 @@
       'background: oklch(0.985 0.002 260)',
       'border-bottom: 0.5px solid oklch(0.91 0.005 260)',
       'border-radius: 10px',
-      'flex-wrap: wrap',
+      'flex-wrap: nowrap',
       'overflow: hidden'
     ].join(';');
 
-    // 1) Region pills
+    // 1) Language selector
+    const languageOptions = getLanguageOptions();
+    const activeLanguage = activeIdx >= 0 ? presets[activeIdx].sub : languageOptions[0];
+    let selectedLanguage = activeLanguage;
+
+    const langSelect = document.createElement('select');
+    langSelect.style.cssText = [
+      'height:28px',
+      'padding:0 10px',
+      'border:0.5px solid oklch(0.88 0.005 260)',
+      'border-radius:6px',
+      'background:#fff',
+      'font-size:12px',
+      'color:oklch(0.35 0.02 260)',
+      'outline:none',
+      'cursor:pointer',
+      'max-width:120px'
+    ].join(';');
+    languageOptions.forEach(language => {
+      const opt = document.createElement('option');
+      opt.value = language;
+      opt.textContent = language;
+      if (language === activeLanguage) opt.selected = true;
+      langSelect.appendChild(opt);
+    });
+    bar.appendChild(langSelect);
+
+    // 2) Region pills
     const pillGroup = document.createElement('div');
     pillGroup.className = 'gm-pill-group';
+    function renderRegionPills() {
+      pillGroup.innerHTML = '';
+      presets.forEach((p, i) => {
+        if (p.sub !== selectedLanguage) return;
+        const pill = document.createElement('button');
+        pill.className = 'gm-pill' + (i === activeIdx ? ' active' : '');
+        pill.textContent = p.label;
+        pill.title = p.sub;
+        pill.addEventListener('click', () => applyPreset(i));
+        pillGroup.appendChild(pill);
+      });
 
-    presets.forEach((p, i) => {
-      const pill = document.createElement('button');
-      pill.className = 'gm-pill' + (i === activeIdx ? ' active' : '');
-      pill.textContent = p.label;
-      pill.title = p.sub;
-      pill.addEventListener('click', () => applyPreset(i));
-      pillGroup.appendChild(pill);
-    });
-
-    // custom pill if params exist but no match
-    if (hasParams && activeIdx === -1) {
-      const custom = document.createElement('button');
-      custom.className = 'gm-pill active';
-      custom.textContent = 'Custom';
-      custom.title = 'gl=' + (state.gl || '-') + ' cr=' + (state.cr || '-');
-      pillGroup.appendChild(custom);
+      // custom pill if params exist but no match
+      if (hasParams && activeIdx === -1) {
+        const custom = document.createElement('button');
+        custom.className = 'gm-pill active';
+        custom.textContent = 'Custom';
+        custom.title = 'gl=' + (state.gl || '-') + ' cr=' + (state.cr || '-');
+        pillGroup.appendChild(custom);
+      }
     }
+
+    langSelect.addEventListener('change', () => {
+      selectedLanguage = langSelect.value;
+      renderRegionPills();
+    });
+    renderRegionPills();
 
     bar.appendChild(pillGroup);
 
-    // 2) Tool buttons
+    // 3) Tool buttons
     const toolGroup = document.createElement('div');
     toolGroup.style.cssText = 'display:inline-flex;align-items:center;gap:5px';
 
@@ -285,7 +345,7 @@
 
     bar.appendChild(toolGroup);
 
-    // 3) Stat badge
+    // 4) Stat badge
     const resultStats = document.querySelector('#result-stats');
     if (resultStats) {
       const text = resultStats.textContent.trim();
@@ -298,7 +358,7 @@
       }
     }
 
-    // 4) Current keyword (subtle)
+    // 5) Current keyword (subtle)
     const kw = getKeyword();
     if (kw) {
       const kwSpan = document.createElement('span');
