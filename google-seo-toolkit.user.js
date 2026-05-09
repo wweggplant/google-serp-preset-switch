@@ -31,9 +31,24 @@
     return url.searchParams.get('q') || url.searchParams.get('as_q') || '';
   }
 
-  // Strip allintitle:/intitle: prefix so buttons don't double-wrap
-  function getRawKeyword() {
-    return getKeyword().replace(/^(allintitle:|intitle:)"?/i, '').replace(/"$/, '');
+  function stripSearchSyntax(keyword) {
+    return (keyword || '')
+      .trim()
+      .replace(/[“”]/g, '"')
+      .replace(/[‘’]/g, "'")
+      .replace(/\b(?:allintitle|intitle|allintext|intext|allinanchor|inanchor|allinurl|inurl):\s*/gi, ' ')
+      .replace(/\b(?:site|filetype|ext|cache|related|link|source|define|before|after):(?:"[^"]*"|'[^']*'|\S+)/gi, ' ')
+      .replace(/\bAROUND\(\d+\)/gi, ' ')
+      .replace(/[()+*~]/g, ' ')
+      .replace(/(^|\s)-(?=\S)/g, ' ')
+      .replace(/\s+(?:AND|OR)\s+/gi, ' ')
+      .replace(/["']/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function getCleanKeyword() {
+    return stripSearchSyntax(getKeyword());
   }
 
   // ── Presets ──────────────────────────────
@@ -58,7 +73,7 @@
       label: 'KD',
       title: 'Keyword Difficulty — Ahrefs',
       action() {
-        const q = getKeyword();
+        const q = getCleanKeyword();
         if (!q) return;
         window.open('https://ahrefs.com/keyword-difficulty/?country=us&input=' + encodeURIComponent(q), '_blank');
       }
@@ -67,7 +82,7 @@
       label: 'Domain',
       title: 'Domain lookup — Namebeta (.org)',
       action() {
-        const q = getKeyword();
+        const q = getCleanKeyword();
         if (!q) return;
         window.open('https://namebeta.com/search/' + encodeURIComponent(q.replace(/\s+/g, '') + '.org'), '_blank');
       }
@@ -76,7 +91,7 @@
       label: 'Trends',
       title: 'Google Trends — 7 days',
       action() {
-        const q = getKeyword() || 'ai';
+        const q = getCleanKeyword() || 'ai';
         window.open('https://trends.google.com/trends/explore?date=now 7-d&q=' + encodeURIComponent(q), '_blank');
       }
     },
@@ -84,7 +99,7 @@
       label: 'allintitle',
       title: 'Google allintitle search',
       action() {
-        const q = getRawKeyword();
+        const q = getCleanKeyword();
         if (!q) return;
         window.open('https://www.google.com/search?q=allintitle:"' + encodeURIComponent(q) + '"', '_blank');
       }
@@ -93,7 +108,7 @@
       label: 'intitle',
       title: 'Google intitle search',
       action() {
-        const q = getRawKeyword();
+        const q = getCleanKeyword();
         if (!q) return;
         window.open('https://www.google.com/search?q=intitle:"' + encodeURIComponent(q) + '"', '_blank');
       }
