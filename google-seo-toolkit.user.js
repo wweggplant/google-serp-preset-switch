@@ -2,9 +2,9 @@
 // @name         Google SEO Toolkit
 // @name:zh-CN   Google SEO 工具箱
 // @namespace    https://github.com/wweggplant/google-serp-preset-switch
-// @version      2.0.0
-// @description  All-in-one SEO toolkit for Google SERP: stat display, keyword difficulty, domain lookup, Trends, allintitle, intitle, and region preset switching.
-// @description:zh-CN  Google SERP 一站式 SEO 工具箱：搜索统计、关键词难度、域名查询、Trends、allintitle、intitle、地区预设切换。
+// @version      2.0.1
+// @description  All-in-one SEO toolkit for Google SERP: stat display, keyword difficulty, domain lookup, Trends comparison, allintitle, intitle, and region preset switching.
+// @description:zh-CN  Google SERP 一站式 SEO 工具箱：搜索统计、关键词难度、域名查询、Trends 对比、allintitle、intitle、地区预设切换。
 // @author       wweggplant
 // @match        *://www.google.com/search*
 // @match        *://www.google.com.hk/search*
@@ -51,10 +51,10 @@
     return stripSearchSyntax(getKeyword());
   }
 
-  function openKeywordTool(buildUrl, fallback = '') {
-    const keyword = getCleanKeyword() || fallback;
-    if (!keyword) return;
-    window.open(buildUrl(keyword).toString(), '_blank');
+  function getTrendsQuery() {
+    const keyword = getCleanKeyword() || 'ai';
+    const benchmark = 'gpts';
+    return keyword.toLowerCase() === benchmark ? keyword : keyword + ',' + benchmark;
   }
 
   // ── Presets ──────────────────────────────
@@ -79,55 +79,43 @@
       label: 'KD',
       title: 'Keyword Difficulty — Ahrefs',
       action() {
-        openKeywordTool(keyword => {
-          const url = new URL('https://ahrefs.com/keyword-difficulty/');
-          url.searchParams.set('country', 'us');
-          url.searchParams.set('input', keyword);
-          return url;
-        });
+        const q = getCleanKeyword();
+        if (!q) return;
+        window.open('https://ahrefs.com/keyword-difficulty/?country=us&input=' + encodeURIComponent(q), '_blank');
       }
     },
     {
       label: 'Domain',
       title: 'Domain lookup — Namebeta (.org)',
       action() {
-        openKeywordTool(keyword => new URL(
-          'https://namebeta.com/search/' + encodeURIComponent(keyword.replace(/\s+/g, '') + '.org')
-        ));
+        const q = getCleanKeyword();
+        if (!q) return;
+        window.open('https://namebeta.com/search/' + encodeURIComponent(q.replace(/\s+/g, '') + '.org'), '_blank');
       }
     },
     {
       label: 'Trends',
-      title: 'Google Trends — 7 days',
+      title: 'Google Trends — 7 days vs gpts benchmark',
       action() {
-        openKeywordTool(keyword => {
-          const url = new URL('https://trends.google.com/trends/explore');
-          url.searchParams.set('date', 'now 7-d');
-          url.searchParams.set('q', keyword);
-          return url;
-        }, 'ai');
+        window.open('https://trends.google.com/trends/explore?date=now 7-d&q=' + encodeURIComponent(getTrendsQuery()), '_blank');
       }
     },
     {
       label: 'allintitle',
       title: 'Google allintitle search',
       action() {
-        openKeywordTool(keyword => {
-          const url = new URL('https://www.google.com/search');
-          url.searchParams.set('q', 'allintitle:"' + keyword + '"');
-          return url;
-        });
+        const q = getCleanKeyword();
+        if (!q) return;
+        window.open('https://www.google.com/search?q=allintitle:"' + encodeURIComponent(q) + '"', '_blank');
       }
     },
     {
       label: 'intitle',
       title: 'Google intitle search',
       action() {
-        openKeywordTool(keyword => {
-          const url = new URL('https://www.google.com/search');
-          url.searchParams.set('q', 'intitle:"' + keyword + '"');
-          return url;
-        });
+        const q = getCleanKeyword();
+        if (!q) return;
+        window.open('https://www.google.com/search?q=intitle:"' + encodeURIComponent(q) + '"', '_blank');
       }
     }
   ];
