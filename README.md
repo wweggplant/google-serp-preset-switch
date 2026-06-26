@@ -14,7 +14,7 @@ Combines all SEO tools into a single userscript:
 | **Preset Switcher** | One-click country / language switching (gl, cr, lr, hl, pws) | Preset Switch |
 | **KD** | Open Ahrefs Keyword Difficulty for clipboard keyword | Bookmarklet |
 | **Domain** | Look up `.org` domain on Namebeta from clipboard keyword | Bookmarklet |
-| **Trends** | Open Google Trends (7 days) for selected or clipboard text | Bookmarklet |
+| **Trends** | Open Google Trends (7 days) comparing selected or clipboard text with `gpts` benchmark | Bookmarklet |
 | **allintitle** | Google `allintitle:"..."` search for clipboard keyword | Bookmarklet |
 | **intitle** | Google `intitle:"..."` search for clipboard keyword | Bookmarklet |
 

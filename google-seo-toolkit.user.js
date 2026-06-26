@@ -2,9 +2,9 @@
 // @name         Google SEO Toolkit
 // @name:zh-CN   Google SEO 工具箱
 // @namespace    https://github.com/wweggplant/google-serp-preset-switch
-// @version      2.0.0
-// @description  All-in-one SEO toolkit for Google SERP: stat display, keyword difficulty, domain lookup, Trends, allintitle, intitle, and region preset switching.
-// @description:zh-CN  Google SERP 一站式 SEO 工具箱：搜索统计、关键词难度、域名查询、Trends、allintitle、intitle、地区预设切换。
+// @version      2.0.1
+// @description  All-in-one SEO toolkit for Google SERP: stat display, keyword difficulty, domain lookup, Trends comparison, allintitle, intitle, and region preset switching.
+// @description:zh-CN  Google SERP 一站式 SEO 工具箱：搜索统计、关键词难度、域名查询、Trends 对比、allintitle、intitle、地区预设切换。
 // @author       wweggplant
 // @match        *://www.google.com/search*
 // @match        *://www.google.com.hk/search*
@@ -51,6 +51,12 @@
     return stripSearchSyntax(getKeyword());
   }
 
+  function getTrendsQuery() {
+    const keyword = getCleanKeyword() || 'ai';
+    const benchmark = 'gpts';
+    return keyword.toLowerCase() === benchmark ? keyword : keyword + ',' + benchmark;
+  }
+
   // ── Presets ──────────────────────────────
   const FORCE_PWS = '0';
 
@@ -89,10 +95,9 @@
     },
     {
       label: 'Trends',
-      title: 'Google Trends — 7 days',
+      title: 'Google Trends — 7 days vs gpts benchmark',
       action() {
-        const q = getCleanKeyword() || 'ai';
-        window.open('https://trends.google.com/trends/explore?date=now 7-d&q=' + encodeURIComponent(q), '_blank');
+        window.open('https://trends.google.com/trends/explore?date=now 7-d&q=' + encodeURIComponent(getTrendsQuery()), '_blank');
       }
     },
     {
