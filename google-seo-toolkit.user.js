@@ -2,9 +2,9 @@
 // @name         Google SEO Toolkit
 // @name:zh-CN   Google SEO 工具箱
 // @namespace    https://github.com/wweggplant/google-serp-preset-switch
-// @version      2.0.1
-// @description  All-in-one SEO toolkit for Google SERP: stat display, keyword difficulty, domain lookup, Trends comparison, allintitle, intitle, and region preset switching.
-// @description:zh-CN  Google SERP 一站式 SEO 工具箱：搜索统计、关键词难度、域名查询、Trends 对比、allintitle、intitle、地区预设切换。
+// @version      2.0.2
+// @description  All-in-one SEO toolkit for Google SERP: stat display, keyword difficulty, domain lookup, Trends comparison, intitle, Gofei tools, and region preset switching.
+// @description:zh-CN  Google SERP 一站式 SEO 工具箱：搜索统计、关键词难度、域名查询、Trends 对比、intitle、哥飞工具、地区预设切换。
 // @author       wweggplant
 // @match        *://www.google.com/search*
 // @match        *://www.google.com.hk/search*
@@ -101,21 +101,39 @@
       }
     },
     {
-      label: 'allintitle',
-      title: 'Google allintitle search',
-      action() {
-        const q = getCleanKeyword();
-        if (!q) return;
-        window.open('https://www.google.com/search?q=allintitle:"' + encodeURIComponent(q) + '"', '_blank');
-      }
-    },
-    {
       label: 'intitle',
       title: 'Google intitle search',
       action() {
         const q = getCleanKeyword();
         if (!q) return;
         window.open('https://www.google.com/search?q=intitle:"' + encodeURIComponent(q) + '"', '_blank');
+      }
+    },
+    {
+      label: '哥飞 KD',
+      title: '哥飞 KD',
+      action() {
+        const q = getCleanKeyword();
+        if (!q) return;
+        window.open('https://seo.web.cafe/kd/?keyword=' + encodeURIComponent(q) + '&gl=us', '_blank');
+      }
+    },
+    {
+      label: '需求翻译器',
+      title: '哥飞需求翻译器',
+      action() {
+        const q = getCleanKeyword();
+        if (!q) return;
+        window.open('https://seo.web.cafe/translate/?q=' + encodeURIComponent(q), '_blank');
+      }
+    },
+    {
+      label: '需求挖掘机',
+      title: '哥飞需求挖掘机',
+      action() {
+        const q = getCleanKeyword();
+        if (!q) return;
+        window.open('https://seo.web.cafe/mine/?seed=' + encodeURIComponent(q), '_blank');
       }
     }
   ];
@@ -167,39 +185,17 @@
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
       }
 
-      /* pill segment control for region presets */
-      .gm-pill-group {
-        display: inline-flex;
-        background: oklch(0.96 0.005 260);
-        border-radius: 8px;
-        padding: 2px;
-        gap: 2px;
-      }
-
-      .gm-pill {
-        padding: 5px 12px;
-        font-size: 12px;
-        font-weight: 500;
-        color: oklch(0.42 0.01 260);
+      .gm-select {
+        height: 28px;
+        padding: 0 10px;
+        border: 0.5px solid oklch(0.88 0.005 260);
         border-radius: 6px;
-        cursor: pointer;
-        border: none;
-        background: transparent;
-        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-        white-space: nowrap;
-        letter-spacing: -0.01em;
-      }
-
-      .gm-pill:hover {
-        color: oklch(0.22 0.01 260);
-        background: oklch(0.93 0.005 260);
-      }
-
-      .gm-pill.active {
-        color: oklch(0.15 0.02 260);
         background: #fff;
-        box-shadow: 0 0.5px 2px oklch(0.0 0 0 / 0.08), 0 0 0 0.5px oklch(0.0 0 0 / 0.04);
-        font-weight: 600;
+        font-size: 12px;
+        color: oklch(0.35 0.02 260);
+        outline: none;
+        cursor: pointer;
+        max-width: 120px;
       }
 
       /* tool buttons */
@@ -281,18 +277,7 @@
     let selectedLanguage = activeLanguage;
 
     const langSelect = document.createElement('select');
-    langSelect.style.cssText = [
-      'height:28px',
-      'padding:0 10px',
-      'border:0.5px solid oklch(0.88 0.005 260)',
-      'border-radius:6px',
-      'background:#fff',
-      'font-size:12px',
-      'color:oklch(0.35 0.02 260)',
-      'outline:none',
-      'cursor:pointer',
-      'max-width:120px'
-    ].join(';');
+    langSelect.className = 'gm-select';
     languageOptions.forEach(language => {
       const opt = document.createElement('option');
       opt.value = language;
@@ -302,38 +287,43 @@
     });
     bar.appendChild(langSelect);
 
-    // 2) Region pills
-    const pillGroup = document.createElement('div');
-    pillGroup.className = 'gm-pill-group';
-    function renderRegionPills() {
-      pillGroup.innerHTML = '';
+    // 2) Region selector
+    const regionSelect = document.createElement('select');
+    regionSelect.className = 'gm-select';
+
+    function renderRegionOptions() {
+      regionSelect.innerHTML = '';
       presets.forEach((p, i) => {
         if (p.sub !== selectedLanguage) return;
-        const pill = document.createElement('button');
-        pill.className = 'gm-pill' + (i === activeIdx ? ' active' : '');
-        pill.textContent = p.label;
-        pill.title = p.sub;
-        pill.addEventListener('click', () => applyPreset(i));
-        pillGroup.appendChild(pill);
+        const opt = document.createElement('option');
+        opt.value = String(i);
+        opt.textContent = p.label;
+        opt.title = p.sub;
+        if (i === activeIdx) opt.selected = true;
+        regionSelect.appendChild(opt);
       });
 
-      // custom pill if params exist but no match
+      // custom option if params exist but no match
       if (hasParams && activeIdx === -1) {
-        const custom = document.createElement('button');
-        custom.className = 'gm-pill active';
+        const custom = document.createElement('option');
+        custom.value = '';
         custom.textContent = 'Custom';
         custom.title = 'gl=' + (state.gl || '-') + ' cr=' + (state.cr || '-');
-        pillGroup.appendChild(custom);
+        custom.selected = true;
+        regionSelect.appendChild(custom);
       }
     }
 
     langSelect.addEventListener('change', () => {
       selectedLanguage = langSelect.value;
-      renderRegionPills();
+      renderRegionOptions();
     });
-    renderRegionPills();
+    regionSelect.addEventListener('change', () => {
+      if (regionSelect.value) applyPreset(Number(regionSelect.value));
+    });
+    renderRegionOptions();
 
-    bar.appendChild(pillGroup);
+    bar.appendChild(regionSelect);
 
     // 3) Tool buttons
     const toolGroup = document.createElement('div');
