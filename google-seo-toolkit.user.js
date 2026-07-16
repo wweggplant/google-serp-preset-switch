@@ -183,6 +183,11 @@
       #gm-seo-bar {
         animation: gmBarIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+        scrollbar-width: thin;
+      }
+
+      #gm-seo-bar > * {
+        flex: 0 0 auto;
       }
 
       .gm-select {
@@ -268,7 +273,9 @@
       'border-bottom: 0.5px solid oklch(0.91 0.005 260)',
       'border-radius: 10px',
       'flex-wrap: nowrap',
-      'overflow: hidden'
+      'overflow-x: auto',
+      'overflow-y: hidden',
+      '-webkit-overflow-scrolling: touch'
     ].join(';');
 
     // 1) Language selector
