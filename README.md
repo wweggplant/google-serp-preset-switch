@@ -11,12 +11,14 @@ Combines all SEO tools into a single userscript:
 | Tool | Description | Source |
 |------|-------------|--------|
 | **SERP Stat Enhancement** | Highlights result count with a gradient banner | SERP Stats Enhancer |
-| **Preset Switcher** | One-click country / language switching (gl, cr, lr, hl, pws) | Preset Switch |
+| **Preset Switcher** | Dropdown country / language switching (gl, cr, lr, hl, pws) | Preset Switch |
 | **KD** | Open Ahrefs Keyword Difficulty for clipboard keyword | Bookmarklet |
 | **Domain** | Look up `.org` domain on Namebeta from clipboard keyword | Bookmarklet |
 | **Trends** | Open Google Trends (7 days) comparing selected or clipboard text with `gpts` benchmark | Bookmarklet |
-| **allintitle** | Google `allintitle:"..."` search for clipboard keyword | Bookmarklet |
 | **intitle** | Google `intitle:"..."` search for clipboard keyword | Bookmarklet |
+| **哥飞 KD** | Open Gofei KD with the current keyword (`gl=us`) | Web Cafe |
+| **需求翻译器** | Open Gofei Demand Translator with the current keyword | Web Cafe |
+| **需求挖掘机** | Open Gofei Demand Miner with the current keyword | Web Cafe |
 
 Install: [`google-seo-toolkit.user.js`](https://github.com/wweggplant/google-serp-preset-switch/raw/main/google-seo-toolkit.user.js)
 
