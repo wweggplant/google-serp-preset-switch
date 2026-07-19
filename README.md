@@ -2,9 +2,8 @@
 
 Userscripts for SEO professionals working with Google search results.
 
-## Scripts
 
-### 1. Google SEO Toolkit (All-in-one) — Recommended
+## Google SEO Toolkit (All-in-one) — Recommended
 
 Combines all SEO tools into a single userscript:
 
@@ -22,11 +21,6 @@ Combines all SEO tools into a single userscript:
 
 Install: [`google-seo-toolkit.user.js`](https://github.com/wweggplant/google-serp-preset-switch/raw/main/google-seo-toolkit.user.js)
 
-### 2. Preset Switch (Standalone)
-
-The original standalone preset switcher, if you only need that feature.
-
-Install: [`google-serp-preset-switch.user.js`](https://github.com/wweggplant/google-serp-preset-switch/raw/main/google-serp-preset-switch.user.js)
 
 ## Supported Google Domains
 
