@@ -2,7 +2,7 @@
 // @name         Google SEO Toolkit
 // @name:zh-CN   Google SEO 工具箱
 // @namespace    https://github.com/wweggplant/google-serp-preset-switch
-// @version      2.0.3
+// @version      2.2.0
 // @description  All-in-one SEO toolkit for Google SERP: stat display, keyword difficulty, domain lookup, Trends comparison, intitle, Gofei tools, and region preset switching.
 // @description:zh-CN  Google SERP 一站式 SEO 工具箱：搜索统计、关键词难度、域名查询、Trends 对比、intitle、哥飞工具、地区预设切换。
 // @author       wweggplant
@@ -14,6 +14,15 @@
 // @match        *://www.google.fr/search*
 // @match        *://www.google.com.sg/search*
 // @match        *://www.google.com.tw/search*
+// @match        *://www.google.es/search*
+// @match        *://www.google.com.mx/search*
+// @match        *://www.google.com.ar/search*
+// @match        *://www.google.com.co/search*
+// @match        *://www.google.cl/search*
+// @match        *://www.google.com.br/search*
+// @match        *://www.google.pt/search*
+// @match        *://www.google.co.kr/search*
+// @match        *://www.google.co.in/search*
 // @include      /^https?:\/\/[^\/]*\.?google\.[^\/]+\/search.*/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=google.com
 // @license      MIT
@@ -70,6 +79,15 @@
     { label: 'TW', sub: '繁體中文',  params: { gl: 'tw', cr: 'countryTW', lr: 'lang_zh-TW', hl: 'zh-TW' } },
     { label: 'DE', sub: 'Deutsch',   params: { gl: 'de', cr: 'countryDE', lr: 'lang_de',    hl: 'de' } },
     { label: 'FR', sub: 'Français',  params: { gl: 'fr', cr: 'countryFR', lr: 'lang_fr',    hl: 'fr' } },
+    { label: 'ES', sub: 'Español',   params: { gl: 'es', cr: 'countryES', lr: 'lang_es',    hl: 'es' } },
+    { label: 'MX', sub: 'Español',   params: { gl: 'mx', cr: 'countryMX', lr: 'lang_es',    hl: 'es' } },
+    { label: 'AR', sub: 'Español',   params: { gl: 'ar', cr: 'countryAR', lr: 'lang_es',    hl: 'es' } },
+    { label: 'CO', sub: 'Español',   params: { gl: 'co', cr: 'countryCO', lr: 'lang_es',    hl: 'es' } },
+    { label: 'CL', sub: 'Español',   params: { gl: 'cl', cr: 'countryCL', lr: 'lang_es',    hl: 'es' } },
+    { label: 'BR', sub: 'Português', params: { gl: 'br', cr: 'countryBR', lr: 'lang_pt',    hl: 'pt-BR' } },
+    { label: 'PT', sub: 'Português', params: { gl: 'pt', cr: 'countryPT', lr: 'lang_pt',    hl: 'pt-PT' } },
+    { label: 'KR', sub: '한국어',     params: { gl: 'kr', cr: 'countryKR', lr: 'lang_ko',    hl: 'ko' } },
+    { label: 'IN', sub: 'हिन्दी',      params: { gl: 'in', cr: 'countryIN', lr: 'lang_hi',    hl: 'hi' } },
     { label: 'RU', sub: 'Русский',   params: { gl: 'ru', cr: 'countryRU', lr: 'lang_ru',    hl: 'ru' } }
   ];
 

@@ -24,7 +24,9 @@ Install: [`google-seo-toolkit.user.js`](https://github.com/wweggplant/google-ser
 
 ## Supported Google Domains
 
-google.com, google.com.hk, google.co.jp, google.co.uk, google.de, google.fr, google.com.sg, google.com.tw, and any `*.google.*` via regex match.
+google.com, google.com.hk, google.co.jp, google.co.uk, google.de, google.fr, google.com.sg, google.com.tw, google.es, google.com.mx, google.com.ar, google.com.co, google.cl, google.com.br, google.pt, google.co.kr, google.co.in, and any `*.google.*` via regex match.
+
+The preset switcher includes Spanish configurations for Spain, Mexico, Argentina, Colombia, and Chile; Portuguese configurations for Brazil and Portugal; Korean for South Korea; and Hindi for India.
 
 ## Installation
 

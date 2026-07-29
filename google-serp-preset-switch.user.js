@@ -2,7 +2,7 @@
 // @name         Google SERP Preset Switch for SEO
 // @name:zh-CN   Google SERP 预设切换器（SEO）
 // @namespace    https://github.com/wweggplant/google-serp-preset-switch
-// @version      1.0.0
+// @version      1.2.0
 // @description  Quickly switch Google SERP presets for SEO checking with gl, cr, lr, hl and pws.
 // @description:zh-CN  快速切换 Google SERP 预设，便于用 gl、cr、lr、hl、pws 检查不同地区和语言下的搜索结果。
 // @author       wweggplant
@@ -10,6 +10,15 @@
 // @match        *://www.google.com.hk/search*
 // @match        *://www.google.co.jp/search*
 // @match        *://www.google.co.uk/search*
+// @match        *://www.google.es/search*
+// @match        *://www.google.com.mx/search*
+// @match        *://www.google.com.ar/search*
+// @match        *://www.google.com.co/search*
+// @match        *://www.google.cl/search*
+// @match        *://www.google.com.br/search*
+// @match        *://www.google.pt/search*
+// @match        *://www.google.co.kr/search*
+// @match        *://www.google.co.in/search*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=google.com
 // @license      MIT
 // @homepageURL  https://github.com/wweggplant/google-serp-preset-switch
@@ -34,6 +43,15 @@
     { label: 'TW · 中文繁體', params: { gl: 'tw', cr: 'countryTW', lr: 'lang_zh-TW', hl: 'zh-TW' } },
     { label: 'DE · Deutsch',   params: { gl: 'de', cr: 'countryDE', lr: 'lang_de',    hl: 'de' } },
     { label: 'FR · Français',  params: { gl: 'fr', cr: 'countryFR', lr: 'lang_fr',    hl: 'fr' } },
+    { label: 'ES · Español',   params: { gl: 'es', cr: 'countryES', lr: 'lang_es',    hl: 'es' } },
+    { label: 'MX · Español',   params: { gl: 'mx', cr: 'countryMX', lr: 'lang_es',    hl: 'es' } },
+    { label: 'AR · Español',   params: { gl: 'ar', cr: 'countryAR', lr: 'lang_es',    hl: 'es' } },
+    { label: 'CO · Español',   params: { gl: 'co', cr: 'countryCO', lr: 'lang_es',    hl: 'es' } },
+    { label: 'CL · Español',   params: { gl: 'cl', cr: 'countryCL', lr: 'lang_es',    hl: 'es' } },
+    { label: 'BR · Português', params: { gl: 'br', cr: 'countryBR', lr: 'lang_pt',    hl: 'pt-BR' } },
+    { label: 'PT · Português', params: { gl: 'pt', cr: 'countryPT', lr: 'lang_pt',    hl: 'pt-PT' } },
+    { label: 'KR · 한국어',    params: { gl: 'kr', cr: 'countryKR', lr: 'lang_ko',    hl: 'ko' } },
+    { label: 'IN · हिन्दी',     params: { gl: 'in', cr: 'countryIN', lr: 'lang_hi',    hl: 'hi' } },
     { label: 'RU · Русский',   params: { gl: 'ru', cr: 'countryRU', lr: 'lang_ru',    hl: 'ru' } }
   ];
 
