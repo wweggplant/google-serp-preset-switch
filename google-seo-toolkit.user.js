@@ -2,7 +2,7 @@
 // @name         Google SEO Toolkit
 // @name:zh-CN   Google SEO 工具箱
 // @namespace    https://github.com/wweggplant/google-serp-preset-switch
-// @version      2.0.2
+// @version      2.0.3
 // @description  All-in-one SEO toolkit for Google SERP: stat display, keyword difficulty, domain lookup, Trends comparison, intitle, Gofei tools, and region preset switching.
 // @description:zh-CN  Google SERP 一站式 SEO 工具箱：搜索统计、关键词难度、域名查询、Trends 对比、intitle、哥飞工具、地区预设切换。
 // @author       wweggplant
@@ -298,7 +298,7 @@
     const regionSelect = document.createElement('select');
     regionSelect.className = 'gm-select';
 
-    function renderRegionOptions() {
+    function renderRegionOptions(showCustom = true) {
       regionSelect.innerHTML = '';
       presets.forEach((p, i) => {
         if (p.sub !== selectedLanguage) return;
@@ -311,7 +311,7 @@
       });
 
       // custom option if params exist but no match
-      if (hasParams && activeIdx === -1) {
+      if (showCustom && hasParams && activeIdx === -1) {
         const custom = document.createElement('option');
         custom.value = '';
         custom.textContent = 'Custom';
@@ -323,7 +323,10 @@
 
     langSelect.addEventListener('change', () => {
       selectedLanguage = langSelect.value;
-      renderRegionOptions();
+      // Changing the language also selects its first region and immediately
+      // runs a new search. This keeps all preset parameters, including pws=0.
+      renderRegionOptions(false);
+      if (regionSelect.value) applyPreset(Number(regionSelect.value));
     });
     regionSelect.addEventListener('change', () => {
       if (regionSelect.value) applyPreset(Number(regionSelect.value));
