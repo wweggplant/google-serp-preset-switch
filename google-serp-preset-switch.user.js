@@ -17,6 +17,8 @@
 // @match        *://www.google.cl/search*
 // @match        *://www.google.com.br/search*
 // @match        *://www.google.pt/search*
+// @match        *://www.google.co.kr/search*
+// @match        *://www.google.co.in/search*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=google.com
 // @license      MIT
 // @homepageURL  https://github.com/wweggplant/google-serp-preset-switch
@@ -48,6 +50,8 @@
     { label: 'CL · Español',   params: { gl: 'cl', cr: 'countryCL', lr: 'lang_es',    hl: 'es' } },
     { label: 'BR · Português', params: { gl: 'br', cr: 'countryBR', lr: 'lang_pt',    hl: 'pt-BR' } },
     { label: 'PT · Português', params: { gl: 'pt', cr: 'countryPT', lr: 'lang_pt',    hl: 'pt-PT' } },
+    { label: 'KR · 한국어',    params: { gl: 'kr', cr: 'countryKR', lr: 'lang_ko',    hl: 'ko' } },
+    { label: 'IN · हिन्दी',     params: { gl: 'in', cr: 'countryIN', lr: 'lang_hi',    hl: 'hi' } },
     { label: 'RU · Русский',   params: { gl: 'ru', cr: 'countryRU', lr: 'lang_ru',    hl: 'ru' } }
   ];
 

@@ -21,6 +21,8 @@
 // @match        *://www.google.cl/search*
 // @match        *://www.google.com.br/search*
 // @match        *://www.google.pt/search*
+// @match        *://www.google.co.kr/search*
+// @match        *://www.google.co.in/search*
 // @include      /^https?:\/\/[^\/]*\.?google\.[^\/]+\/search.*/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=google.com
 // @license      MIT
@@ -84,6 +86,8 @@
     { label: 'CL', sub: 'Español',   params: { gl: 'cl', cr: 'countryCL', lr: 'lang_es',    hl: 'es' } },
     { label: 'BR', sub: 'Português', params: { gl: 'br', cr: 'countryBR', lr: 'lang_pt',    hl: 'pt-BR' } },
     { label: 'PT', sub: 'Português', params: { gl: 'pt', cr: 'countryPT', lr: 'lang_pt',    hl: 'pt-PT' } },
+    { label: 'KR', sub: '한국어',     params: { gl: 'kr', cr: 'countryKR', lr: 'lang_ko',    hl: 'ko' } },
+    { label: 'IN', sub: 'हिन्दी',      params: { gl: 'in', cr: 'countryIN', lr: 'lang_hi',    hl: 'hi' } },
     { label: 'RU', sub: 'Русский',   params: { gl: 'ru', cr: 'countryRU', lr: 'lang_ru',    hl: 'ru' } }
   ];
 
