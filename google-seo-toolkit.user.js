@@ -2,7 +2,7 @@
 // @name         Google SEO Toolkit
 // @name:zh-CN   Google SEO 工具箱
 // @namespace    https://github.com/wweggplant/google-serp-preset-switch
-// @version      2.1.0
+// @version      2.1.1
 // @description  All-in-one SEO toolkit for Google SERP: stat display, keyword difficulty, domain lookup, Trends comparison, intitle, Gofei tools, and region preset switching.
 // @description:zh-CN  Google SERP 一站式 SEO 工具箱：搜索统计、关键词难度、域名查询、Trends 对比、intitle、哥飞工具、地区预设切换。
 // @author       wweggplant
@@ -390,6 +390,21 @@
       kwSpan.title = kw;
       bar.appendChild(kwSpan);
     }
+
+    // Normalize mouse wheel input for horizontal toolbar scrolling. Native
+    // horizontal gestures (for example, trackpads) stay handled by Chrome.
+    bar.addEventListener('wheel', (event) => {
+      if (bar.scrollWidth <= bar.clientWidth) return;
+      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+      if (!event.deltaY) return;
+
+      const before = bar.scrollLeft;
+      bar.scrollLeft += event.deltaY;
+
+      // Consume the event only while the toolbar actually moves, so normal
+      // page scrolling resumes naturally at either horizontal boundary.
+      if (bar.scrollLeft !== before) event.preventDefault();
+    }, { passive: false });
 
     return bar;
   }
