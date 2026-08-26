@@ -13,7 +13,7 @@ Combines all SEO tools into a single userscript:
 | **Preset Switcher** | Dropdown country / language switching (gl, cr, lr, hl, pws) | Preset Switch |
 | **KD** | Open Ahrefs Keyword Difficulty for clipboard keyword | Bookmarklet |
 | **Domain** | Look up `.org` domain on Namebeta from clipboard keyword | Bookmarklet |
-| **Trends** | Open Google Trends (7 days) comparing selected or clipboard text with `gpts` benchmark | Bookmarklet |
+| **Trends** | Open Google Trends (7 days) comparing the search keyword with a configurable benchmark (default: `gpts`) | Bookmarklet |
 | **intitle** | Google `intitle:"..."` search for clipboard keyword | Bookmarklet |
 | **哥飞 KD** | Open Gofei KD with the current keyword (`gl=us`) | Web Cafe |
 | **需求翻译器** | Open Gofei Demand Translator with the current keyword | Web Cafe |

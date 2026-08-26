@@ -2,7 +2,7 @@
 // @name         Google SEO Toolkit
 // @name:zh-CN   Google SEO 工具箱
 // @namespace    https://github.com/wweggplant/google-serp-preset-switch
-// @version      2.1.1
+// @version      2.2.0
 // @description  All-in-one SEO toolkit for Google SERP: stat display, keyword difficulty, domain lookup, Trends comparison, intitle, Gofei tools, and region preset switching.
 // @description:zh-CN  Google SERP 一站式 SEO 工具箱：搜索统计、关键词难度、域名查询、Trends 对比、intitle、哥飞工具、地区预设切换。
 // @author       wweggplant
@@ -60,10 +60,30 @@
     return stripSearchSyntax(getKeyword());
   }
 
+  const TRENDS_BENCHMARK_STORAGE_KEY = 'gm-seo-trends-benchmark';
+  const DEFAULT_TRENDS_BENCHMARK = 'gpts';
+
+  function getTrendsBenchmark() {
+    try {
+      return localStorage.getItem(TRENDS_BENCHMARK_STORAGE_KEY)?.trim() || DEFAULT_TRENDS_BENCHMARK;
+    } catch (_) {
+      return DEFAULT_TRENDS_BENCHMARK;
+    }
+  }
+
+  function saveTrendsBenchmark(benchmark) {
+    try {
+      localStorage.setItem(TRENDS_BENCHMARK_STORAGE_KEY, benchmark);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
   function getTrendsQuery() {
     const keyword = getCleanKeyword() || 'ai';
-    const benchmark = 'gpts';
-    return keyword.toLowerCase() === benchmark ? keyword : keyword + ',' + benchmark;
+    const benchmark = getTrendsBenchmark();
+    return keyword.toLowerCase() === benchmark.toLowerCase() ? keyword : keyword + ',' + benchmark;
   }
 
   // ── Presets ──────────────────────────────
@@ -113,10 +133,11 @@
     },
     {
       label: 'Trends',
-      title: 'Google Trends — 7 days vs gpts benchmark',
+      title: 'Google Trends — 7 days with configurable comparison term',
       action() {
         window.open('https://trends.google.com/trends/explore?date=now 7-d&q=' + encodeURIComponent(getTrendsQuery()), '_blank');
-      }
+      },
+      settingsAction: openTrendsSettings
     },
     {
       label: 'intitle',
@@ -204,6 +225,13 @@
         scrollbar-width: thin;
       }
 
+      #gm-seo-bar button:focus-visible,
+      #gm-seo-bar select:focus-visible,
+      .gm-settings-dialog button:focus-visible {
+        outline: 2px solid oklch(0.60 0.14 250);
+        outline-offset: 2px;
+      }
+
       #gm-seo-bar > * {
         flex: 0 0 auto;
       }
@@ -247,6 +275,164 @@
         transform: scale(0.97);
       }
 
+      .gm-settings-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+      }
+
+      .gm-settings-btn svg {
+        width: 14px;
+        height: 14px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .gm-settings-dialog {
+        width: min(360px, calc(100vw - 32px));
+        padding: 0;
+        border: 0.5px solid oklch(0.84 0.008 260);
+        border-radius: 12px;
+        color: light-dark(oklch(0.22 0.02 260), oklch(0.91 0.01 260));
+        background: light-dark(oklch(0.995 0.002 260), oklch(0.23 0.012 260));
+        color-scheme: light dark;
+        box-shadow: 0 18px 54px oklch(0.12 0.02 260 / 0.22);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+      }
+
+      .gm-settings-dialog::backdrop {
+        background: oklch(0.18 0.02 260 / 0.28);
+      }
+
+      .gm-settings-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px;
+      }
+
+      .gm-settings-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .gm-settings-title {
+        margin: 0;
+        color: inherit;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+
+      .gm-settings-close {
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        border: 0;
+        border-radius: 6px;
+        color: light-dark(oklch(0.48 0.01 260), oklch(0.72 0.01 260));
+        background: transparent;
+        cursor: pointer;
+        font-size: 20px;
+        line-height: 1;
+      }
+
+      .gm-settings-close:hover {
+        color: inherit;
+        background: light-dark(oklch(0.95 0.005 260), oklch(0.31 0.01 260));
+      }
+
+      .gm-settings-field {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      .gm-settings-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: light-dark(oklch(0.32 0.02 260), oklch(0.84 0.01 260));
+      }
+
+      .gm-settings-input {
+        box-sizing: border-box;
+        width: 100%;
+        height: 36px;
+        padding: 0 10px;
+        border: 0.5px solid oklch(0.80 0.01 260);
+        border-radius: 7px;
+        outline: none;
+        color: inherit;
+        background: light-dark(#fff, oklch(0.27 0.01 260));
+        font: inherit;
+        font-size: 13px;
+      }
+
+      .gm-settings-input:focus {
+        border-color: oklch(0.60 0.14 250);
+        box-shadow: 0 0 0 3px oklch(0.75 0.10 250 / 0.20);
+      }
+
+      .gm-settings-help,
+      .gm-settings-error {
+        margin: 0;
+        font-size: 11px;
+        line-height: 1.45;
+      }
+
+      .gm-settings-help {
+        color: light-dark(oklch(0.50 0.01 260), oklch(0.72 0.01 260));
+      }
+
+      .gm-settings-error {
+        min-height: 16px;
+        color: oklch(0.50 0.18 25);
+      }
+
+      .gm-settings-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .gm-settings-action {
+        height: 32px;
+        padding: 0 13px;
+        border: 0.5px solid oklch(0.84 0.008 260);
+        border-radius: 7px;
+        color: light-dark(oklch(0.32 0.02 260), oklch(0.84 0.01 260));
+        background: light-dark(oklch(0.98 0.002 260), oklch(0.29 0.01 260));
+        cursor: pointer;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .gm-settings-action:hover {
+        background: light-dark(#fff, oklch(0.34 0.01 260));
+        border-color: oklch(0.76 0.01 260);
+      }
+
+      .gm-settings-save {
+        color: #fff;
+        border-color: oklch(0.52 0.16 250);
+        background: oklch(0.52 0.16 250);
+      }
+
+      .gm-settings-save:hover {
+        color: #fff;
+        border-color: oklch(0.46 0.16 250);
+        background: oklch(0.46 0.16 250);
+      }
+
       /* stat badge */
       .gm-stat {
         font-size: 11px;
@@ -272,6 +458,113 @@
   }
 
   // ── Build UI ─────────────────────────────
+  function openTrendsSettings() {
+    const existingDialog = document.getElementById('gm-trends-settings-dialog');
+    if (existingDialog) {
+      existingDialog.querySelector('input')?.focus();
+      return;
+    }
+
+    const dialog = document.createElement('dialog');
+    dialog.id = 'gm-trends-settings-dialog';
+    dialog.className = 'gm-settings-dialog';
+    dialog.setAttribute('aria-labelledby', 'gm-trends-settings-title');
+
+    const form = document.createElement('form');
+    form.className = 'gm-settings-form';
+
+    const header = document.createElement('div');
+    header.className = 'gm-settings-header';
+
+    const title = document.createElement('h2');
+    title.id = 'gm-trends-settings-title';
+    title.className = 'gm-settings-title';
+    title.textContent = 'Trends comparison';
+
+    const closeButton = document.createElement('button');
+    closeButton.className = 'gm-settings-close';
+    closeButton.type = 'button';
+    closeButton.setAttribute('aria-label', 'Close');
+    closeButton.textContent = '×';
+    closeButton.addEventListener('click', () => dialog.close());
+
+    header.append(title, closeButton);
+
+    const field = document.createElement('label');
+    field.className = 'gm-settings-field';
+
+    const label = document.createElement('span');
+    label.className = 'gm-settings-label';
+    label.textContent = 'Comparison term';
+
+    const input = document.createElement('input');
+    input.className = 'gm-settings-input';
+    input.type = 'text';
+    input.name = 'benchmark';
+    input.required = true;
+    input.maxLength = 100;
+    input.autocomplete = 'off';
+    input.value = getTrendsBenchmark();
+    input.placeholder = DEFAULT_TRENDS_BENCHMARK;
+
+    const help = document.createElement('p');
+    help.className = 'gm-settings-help';
+    help.textContent = 'Compared with the current Google search keyword in Trends.';
+
+    field.append(label, input, help);
+
+    const error = document.createElement('p');
+    error.className = 'gm-settings-error';
+    error.setAttribute('aria-live', 'polite');
+
+    const actions = document.createElement('div');
+    actions.className = 'gm-settings-actions';
+
+    const cancelButton = document.createElement('button');
+    cancelButton.className = 'gm-settings-action';
+    cancelButton.type = 'button';
+    cancelButton.textContent = 'Cancel';
+    cancelButton.addEventListener('click', () => dialog.close());
+
+    const saveButton = document.createElement('button');
+    saveButton.className = 'gm-settings-action gm-settings-save';
+    saveButton.type = 'submit';
+    saveButton.textContent = 'Save';
+
+    actions.append(cancelButton, saveButton);
+    form.append(header, field, error, actions);
+    dialog.appendChild(form);
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const benchmark = input.value.trim();
+      if (!benchmark) {
+        error.textContent = 'Enter a comparison term.';
+        input.focus();
+        return;
+      }
+      if (!saveTrendsBenchmark(benchmark)) {
+        error.textContent = 'Could not save this setting in the browser.';
+        return;
+      }
+      dialog.close();
+    });
+
+    dialog.addEventListener('click', event => {
+      if (event.target !== dialog) return;
+      const bounds = dialog.getBoundingClientRect();
+      const isInside = event.clientX >= bounds.left && event.clientX <= bounds.right &&
+        event.clientY >= bounds.top && event.clientY <= bounds.bottom;
+      if (!isInside) dialog.close();
+    });
+    dialog.addEventListener('close', () => dialog.remove());
+
+    document.body.appendChild(dialog);
+    dialog.showModal();
+    input.focus();
+    input.select();
+  }
+
   function buildBar() {
     const state = getCurrentState(new URL(location.href));
     const activeIdx = findPresetIndex(state);
@@ -360,10 +653,22 @@
     tools.forEach(t => {
       const btn = document.createElement('button');
       btn.className = 'gm-tool-btn';
+      btn.type = 'button';
       btn.textContent = t.label;
       btn.title = t.title;
       btn.addEventListener('click', t.action);
       toolGroup.appendChild(btn);
+
+      if (t.settingsAction) {
+        const settingsButton = document.createElement('button');
+        settingsButton.className = 'gm-tool-btn gm-settings-btn';
+        settingsButton.type = 'button';
+        settingsButton.title = 'Configure Trends comparison term';
+        settingsButton.setAttribute('aria-label', 'Configure Trends comparison term');
+        settingsButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.09A1.7 1.7 0 0 0 9 19.36a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.63 15a1.7 1.7 0 0 0-1.56-1.03H3v-4h.09A1.7 1.7 0 0 0 4.64 9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.63a1.7 1.7 0 0 0 1.03-1.56V3h4v.09A1.7 1.7 0 0 0 15 4.64a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.37 9a1.7 1.7 0 0 0 1.56 1.03H21v4h-.09A1.7 1.7 0 0 0 19.4 15Z"></path></svg>';
+        settingsButton.addEventListener('click', t.settingsAction);
+        toolGroup.appendChild(settingsButton);
+      }
     });
 
     bar.appendChild(toolGroup);
